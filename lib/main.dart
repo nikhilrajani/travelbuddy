@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 // import 'package:travelbuddy/responsive/resposive_layout_screen.dart';
 // import 'package:travelbuddy/responsive/web_screen_layout.dart';
 import 'package:travelbuddy/screens/login_screen.dart';
+import 'package:travelbuddy/screens/signup_screen.dart';
 import 'package:travelbuddy/utils/colors.dart';
 // import 'package:travelbuddy/utils/colors.dart';
 

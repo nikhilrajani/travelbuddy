@@ -1,19 +1,25 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:travelbuddy/resources/auth_methods.dart';
 import 'package:travelbuddy/utils/colors.dart';
 import 'package:travelbuddy/utils/utils.dart';
 import 'package:travelbuddy/widgets/text_field_input.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class SignUpScreen extends StatefulWidget {
+  const SignUpScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<SignUpScreen> createState() => _SignUpScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _bioController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
+  Uint8List? _image;
   bool _isLoading = false;
 
   @override
@@ -21,16 +27,28 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
     _emailController.dispose();
     _passwordController.dispose();
+    _bioController.dispose();
+    _usernameController.dispose();
   }
 
-  void loginUser(BuildContext context) async {
+  void selectImage() async {
+    Uint8List im = await pickImage(ImageSource.gallery);
+    setState(() {
+      _image = im;
+    });
+  }
+
+  void signUpUser(BuildContext context) async {
     setState(() {
       _isLoading = true;
     });
     final currentContext = context;
-    String res = await AuthMethods().loginUser(
+    String res = await AuthMethods().signUpUser(
+      username: _usernameController.text,
       email: _emailController.text,
       password: _passwordController.text,
+      bio: _bioController.text,
+      file: _image!,
     );
 
     setState(() {
@@ -56,10 +74,44 @@ class _LoginScreenState extends State<LoginScreen> {
               Flexible(flex: 2, child: Container()),
               Image.asset(
                 'assets/logo-white.png',
-                height: 200,
+                height: 140,
               ),
 
-              // const SizedBox(height: 10),
+              // ciruclar widget to select and show our profile
+              Stack(
+                children: [
+                  _image != null
+                      ? CircleAvatar(
+                          radius: 60,
+                          backgroundImage: MemoryImage(_image!),
+                        )
+                      : const CircleAvatar(
+                          radius: 60,
+                          backgroundImage: NetworkImage(
+                            'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Windows_10_Default_Profile_Picture.svg/2048px-Windows_10_Default_Profile_Picture.svg.png',
+                          ),
+                        ),
+                  Positioned(
+                    bottom: -10,
+                    left: 80,
+                    child: IconButton(
+                      onPressed: selectImage,
+                      icon: const Icon(Icons.add_a_photo),
+                    ),
+                  ),
+                ],
+              ),
+
+              const SizedBox(height: 15),
+
+              //text field input for username
+              TextFieldInput(
+                textEditingController: _usernameController,
+                hintText: 'Enter your username',
+                textInputType: TextInputType.text,
+              ),
+
+              const SizedBox(height: 24),
 
               //text field input for email
               TextFieldInput(
@@ -80,10 +132,18 @@ class _LoginScreenState extends State<LoginScreen> {
 
               const SizedBox(height: 24),
 
+              TextFieldInput(
+                textEditingController: _bioController,
+                hintText: 'Enter your Bio',
+                textInputType: TextInputType.text,
+              ),
+
+              const SizedBox(height: 24),
+
               //login button
               InkWell(
                 onTap: () {
-                  loginUser(context);
+                  signUpUser(context);
                 },
                 child: Container(
                   width: double.infinity,
@@ -101,7 +161,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ? const Center(
                           child: CircularProgressIndicator(),
                         )
-                      : const Text('Login'),
+                      : const Text('Sign Up'),
                 ),
               ),
 
