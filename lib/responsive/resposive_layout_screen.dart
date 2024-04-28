@@ -1,24 +1,42 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:travelbuddy/providers/user_provider.dart';
 import 'package:travelbuddy/utils/dimensions.dart';
 
-class ResponsiveLayoutScreen extends StatelessWidget {
+class ResponsiveLayoutScreen extends StatefulWidget {
   final Widget mobileScreenLayout;
   final Widget webScreenLayout;
-  const ResponsiveLayoutScreen(
-      {super.key,
-      required this.mobileScreenLayout,
-      required this.webScreenLayout});
+  const ResponsiveLayoutScreen({
+    super.key,
+    required this.mobileScreenLayout,
+    required this.webScreenLayout,
+  });
+
+  @override
+  State<ResponsiveLayoutScreen> createState() => _ResponsiveLayoutScreenState();
+}
+
+class _ResponsiveLayoutScreenState extends State<ResponsiveLayoutScreen> {
+  addData() async {
+    UserProvider _userProvider = Provider.of(context, listen: false);
+
+    await _userProvider.refreshUser();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    addData();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        if (constraints.maxWidth > webScreenSize) {
-          return webScreenLayout;
-        } else {
-          return mobileScreenLayout;
-        }
-      },
-    );
+    return LayoutBuilder(builder: (context, constraints) {
+      if (constraints.maxWidth > webScreenSize) {
+        return widget.webScreenLayout;
+      } else {
+        return widget.mobileScreenLayout;
+      }
+    });
   }
 }

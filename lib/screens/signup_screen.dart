@@ -3,6 +3,10 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:travelbuddy/resources/auth_methods.dart';
+import 'package:travelbuddy/responsive/mobile_screen_layout.dart';
+import 'package:travelbuddy/responsive/resposive_layout_screen.dart';
+import 'package:travelbuddy/responsive/web_screen_layout.dart';
+import 'package:travelbuddy/screens/login_screen.dart';
 import 'package:travelbuddy/utils/colors.dart';
 import 'package:travelbuddy/utils/utils.dart';
 import 'package:travelbuddy/widgets/text_field_input.dart';
@@ -55,9 +59,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
       _isLoading = false;
     });
 
-    if (res != "success" && currentContext.mounted) {
-      showSnackBar(res, currentContext);
+    if (currentContext.mounted) {
+      if (res == "success") {
+        Navigator.of(currentContext).pushReplacement(
+          MaterialPageRoute(
+            builder: (currentContext) => const ResponsiveLayoutScreen(
+              mobileScreenLayout: MobileScreenLayout(),
+              webScreenLayout: WebScreenLayout(),
+            ),
+          ),
+        );
+      } else {
+        showSnackBar(res, currentContext);
+      }
     }
+  }
+
+  void navigateToLogin() {
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(builder: (context) => const LoginScreen()),
+    );
   }
 
   @override
@@ -174,14 +195,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 children: [
                   Container(
                     padding: const EdgeInsets.symmetric(vertical: 10),
-                    child: const Text("Don't have an account? "),
+                    child: const Text("Already have an account? "),
                   ),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: navigateToLogin,
                     child: Container(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: const Text(
-                        "Sign Up!",
+                        "Login!",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                         ),
