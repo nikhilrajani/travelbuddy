@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 // import 'package:travelbuddy/responsive/mobile_screen_layout.dart';
 // import 'package:travelbuddy/responsive/resposive_layout_screen.dart';
 // import 'package:travelbuddy/responsive/web_screen_layout.dart';
@@ -10,15 +11,16 @@ import 'package:travelbuddy/utils/colors.dart';
 // import 'package:travelbuddy/utils/colors.dart';
 
 void main() async {
+  await dotenv.load(fileName: ".env");
   WidgetsFlutterBinding.ensureInitialized();
   if (kIsWeb) {
     await Firebase.initializeApp(
-      options: const FirebaseOptions(
-        apiKey: "AIzaSyDmUIsSEDgUkPq9zrsUJRPlOxtmuhsNHyU",
-        appId: "1:152258898412:web:24ebd714c9e6178ca978c9",
-        messagingSenderId: "152258898412",
-        projectId: "travelbuddy-b6e88",
-        storageBucket: "travelbuddy-b6e88.appspot.com",
+      options: FirebaseOptions(
+        apiKey: dotenv.env['FIREBASE_API_KEY'] ?? '',
+        appId: dotenv.env['FIREBASE_APP_ID'] ?? '',
+        messagingSenderId: dotenv.env['FIREBASE_MESSAGING_SENDER_ID'] ?? '',
+        projectId: dotenv.env['FIREBASE_PROJECT_ID'] ?? '',
+        storageBucket: dotenv.env['FIREBASE_STORAGE_BUCKET'],
       ),
     );
   } else {
