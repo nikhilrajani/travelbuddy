@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:travelbuddy/providers/user_provider.dart';
-import 'package:travelbuddy/utils/dimensions.dart';
+import 'package:travelbuddy/utils/global_variables.dart';
 
 class ResponsiveLayoutScreen extends StatefulWidget {
   final Widget mobileScreenLayout;
@@ -18,9 +18,9 @@ class ResponsiveLayoutScreen extends StatefulWidget {
 
 class _ResponsiveLayoutScreenState extends State<ResponsiveLayoutScreen> {
   addData() async {
-    UserProvider _userProvider = Provider.of(context, listen: false);
+    UserProvider userProvider = Provider.of(context, listen: false);
 
-    await _userProvider.refreshUser();
+    await userProvider.refreshUser();
   }
 
   @override
