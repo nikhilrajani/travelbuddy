@@ -1,5 +1,4 @@
 # travelbuddy
-State Management: 
 User --> email,username,profile picture,bio,followers,following
 Post --> source,destination,date of journey,weight, price,photo,date of publish,user
 
