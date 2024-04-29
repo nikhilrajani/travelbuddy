@@ -1,7 +1,7 @@
 # travelbuddy
 State Management: 
-1) User --> email,username,profile picture,bio,followers,following
-2) Post --> source,destination,date of journey,weight, price,photo,date of publish,user
+User --> email,username,profile picture,bio,followers,following
+Post --> source,destination,date of journey,weight, price,photo,date of publish,user
 
 The above state management provides us the basic functionality required for the task, it also holds potential for further improvements. To make this application interactive between users, we can add features like following, like posts etc. Eventually we can scale this up to a full social media app for travel routes. Right now every user can see every post on the application.
 
