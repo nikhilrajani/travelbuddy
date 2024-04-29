@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:travelbuddy/models/user.dart';
 import 'package:travelbuddy/providers/user_provider.dart';
 import 'package:travelbuddy/resources/firestore_methods.dart';
+import 'package:travelbuddy/screens/feed_screen.dart';
 import 'package:travelbuddy/utils/colors.dart';
 import 'package:travelbuddy/utils/utils.dart';
 
@@ -111,6 +112,14 @@ class _AddPostScreenState extends State<AddPostScreen> {
     }
   }
 
+  void goToFeed() {
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (context) => const FeedScreen(),
+      ),
+    );
+  }
+
   void postTravel(String uid, String username, String profImage) async {
     setState(() {
       _isLoading = true;
@@ -131,6 +140,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
       if (res == "success") {
         showSnackBar('Posted!', context);
         clearData();
+        goToFeed();
         setState(() {
           _isLoading = false;
         });

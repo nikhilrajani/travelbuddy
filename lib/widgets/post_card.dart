@@ -28,7 +28,7 @@ class PostCard extends StatelessWidget {
                 CircleAvatar(
                   radius: 16,
                   backgroundImage: NetworkImage(
-                    'https://images.unsplash.com/photo-1599566150163-29194dcaad36?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                    snap['profImage'],
                   ),
                 ),
                 Expanded(
@@ -66,8 +66,7 @@ class PostCard extends StatelessWidget {
                     width: MediaQuery.of(context).size.width * 0.35,
                     child: Padding(
                       padding: const EdgeInsets.only(left: 12),
-                      child: Image.network(
-                          'https://images.unsplash.com/photo-1711014775366-6ef8bae49b1a?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
+                      child: Image.network(snap['photoUrl']),
                     ),
                   ),
                   // LikeAnimation(
